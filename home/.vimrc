@@ -18,6 +18,8 @@ set history=500
 " Enable filetype plugins
 filetype plugin on
 
+map <F3> :setlocal spell!<CR>
+
 """""""""""""""""""""""""
 " Appearances
 """""""""""""""""""""""""
