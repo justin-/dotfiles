@@ -1,6 +1,22 @@
 set nocompatible
 
 """""""""""""""""""""""""
+" Vundle
+"""""""""""""""""""""""""
+
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'kien/ctrlp.vim'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/syntastic'
+
+nmap <silent> <leader>n :NERDTreeToggle<CR>
+
+"""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""
 
@@ -19,6 +35,11 @@ set history=500
 filetype plugin on
 
 map <F3> :setlocal spell!<CR>
+
+inoremap jk <Esc>
+
+let maplocalleader=","
+let mapleader=","
 
 """""""""""""""""""""""""
 " Appearances
@@ -72,9 +93,9 @@ set backspace=indent,eol,start
 " Backup
 """""""""""""""""""""""""
 
-set backupdir=/var/tmp,~/tmp
+"set backupdir=/var/tmp,~/tmp
 
-set dir=/var/tmp,~/tmp
+"set dir=/var/tmp,~/tmp
 
 """""""""""""""""""""""""
 " Experimental Below This Line
