@@ -1,26 +1,15 @@
 set nocompatible
 
 """""""""""""""""""""""""
-" Vundle
-"""""""""""""""""""""""""
-
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'gmarik/vundle'
-Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
-
-nmap <silent> <leader>n :NERDTreeToggle<CR>
-
-"""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""
 
 set encoding=utf8
+
+inoremap jk <Esc>
+
+let maplocalleader=","
+let mapleader=","
 
 " Line numbering
 set nu
@@ -36,10 +25,39 @@ filetype plugin on
 
 map <F3> :setlocal spell!<CR>
 
-inoremap jk <Esc>
+"""""""""""""""""""""""""
+" Vundle & Plugins
+"""""""""""""""""""""""""
 
-let maplocalleader=","
-let mapleader=","
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" Plugins
+Bundle 'gmarik/vundle'
+Bundle 'kien/ctrlp.vim'
+Bundle 'mattn/gist-vim'
+Bundle 'mattn/webapi-vim'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/syntastic'
+
+" Plugin configs
+"
+nmap <silent> <leader>n :NERDTreeToggle<CR>
+
+" move between buffers with control + h
+noremap <C-J> <C-W>j
+noremap <C-K> <C-W>k
+noremap <C-H> <C-W>h
+noremap <C-L> <C-W>l
+
+" gists are private by default
+let g:gist_post_private = 1
+
+" Colors
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'tomasr/molokai'
 
 """""""""""""""""""""""""
 " Appearances
@@ -56,8 +74,16 @@ colorscheme molokai
 highlight LineNr ctermfg=gray ctermbg=none
 
 " Column Limit
-highlight ColorColumn ctermbg=magenta
-call matchadd('ColorColumn', '\%81v', 100)
+if exists('+colorcolumn')
+  set colorcolumn=80
+else
+  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+endif
+
+"highlight ColorColumn ctermbg=yellow
+"call matchadd('ColorColumn', '\%81v', 100)
+
+au BufNewFile,BufRead *.ejs set filetype=html
 
 """""""""""""""""""""""""
 " Indentation
@@ -147,9 +173,28 @@ function! RunNearestTest()
     call RunTestFile(":" . spec_line_number)
 endfunction
 
+function! ShowRoutes()
+  " Requires 'scratch' plugin
+  :topleft 100 :split __Routes__
+  " Make sure Vim doesn't write __Routes__ as a file
+  :set buftype=nofile
+  " Delete everything
+  :normal 1GdG
+  " Put routes output in buffer
+  :0r! rake -s routes
+  " Size window to number of lines (1 plus rake output length)
+  :exec ":normal " . line("$") . _ "
+  " Move cursor to bottom
+  :normal 1GG
+  " Delete empty trailing line
+  :normal dd
+endfunction
+
 " Run this file
 map <leader>t :call RunTestFile()<cr>
 " Run only the example under the cursor
 map <leader>T :call RunNearestTest()<cr>
 " Run all test files
 map <leader>a :call RunTests('spec')<cr>
+" Show routes
+map <leader>gR :call ShowRoutes()<cr>
