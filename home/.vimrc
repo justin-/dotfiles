@@ -25,6 +25,8 @@ filetype plugin on
 
 map <F3> :setlocal spell!<CR>
 
+map <F5> :! ruby %<CR>
+
 """""""""""""""""""""""""
 " Vundle & Plugins
 """""""""""""""""""""""""
