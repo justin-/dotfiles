@@ -27,22 +27,33 @@ map <F3> :setlocal spell!<CR>
 
 map <F5> :! ruby %<CR>
 
+" Map ,e and ,v to open files in the same directory as the current file
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>e :edit %%
+map <leader>v :view %%
+
+map <leader>b :Gblame<CR>
+
 """""""""""""""""""""""""
 " Vundle & Plugins
 """""""""""""""""""""""""
 
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " Plugins
-Bundle 'gmarik/vundle'
-Bundle 'kien/ctrlp.vim'
-Bundle 'mattn/gist-vim'
-Bundle 'mattn/webapi-vim'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
+Plugin 'gmarik/vundle'
+Plugin 'kien/ctrlp.vim'
+Plugin 'mattn/gist-vim'
+Plugin 'mattn/webapi-vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-rails'
+Plugin 'ervandew/supertab'
 
 " Plugin configs
 "
@@ -58,8 +69,10 @@ noremap <C-L> <C-W>l
 let g:gist_post_private = 1
 
 " Colors
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tomasr/molokai'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tomasr/molokai'
+
+call vundle#end()
 
 """""""""""""""""""""""""
 " Appearances
@@ -124,6 +137,8 @@ set backspace=indent,eol,start
 "set backupdir=/var/tmp,~/tmp
 
 "set dir=/var/tmp,~/tmp
+
+set noswapfile
 
 """""""""""""""""""""""""
 " Experimental Below This Line
